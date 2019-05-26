@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.SearchNoteActivity">
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+        <Button
+            android:id="@+id/btnBack"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ic_left_back"
+
+            />
+        <LinearLayout
+            android:id="@+id/frameSearchNote"
+            android:transitionName="frameTransSearchNote"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/conor_layout"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            >
+            <EditText
+                android:id="@+id/edtSearchNote"
+                android:layout_marginStart="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="Tim kiem ghi chu"
+                android:textAllCaps="false"
+                android:gravity="left|center_vertical"
+                android:paddingLeft="5dp"
+                />
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey"/>
+</LinearLayout>
