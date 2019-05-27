@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.xuanvu.hungthinh.litenote.Database.MyDatabase;
@@ -13,12 +14,17 @@ import com.xuanvu.hungthinh.litenote.MainActivity;
 import com.xuanvu.hungthinh.litenote.Model.Note;
 import com.xuanvu.hungthinh.litenote.R;
 
+import org.w3c.dom.Text;
+
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 public class CreateNoteActivity extends AppCompatActivity {
     private Button btnBack;
     private EditText edtTitle, edtContent;
+    private TextView txtTimeModify;
     private MyDatabase myDatabase;
 
     Date currentTime;
@@ -36,7 +42,12 @@ public class CreateNoteActivity extends AppCompatActivity {
         myDatabase = new MyDatabase(this);
         edtTitle = findViewById(R.id.edt_create_note_title);
         edtContent = findViewById(R.id.edt_create_note_content);
+        txtTimeModify = findViewById(R.id.txt_create_time_modify);
         btnBack = findViewById(R.id.btn_create_note_back);
+
+        //init TimeModified
+        String date_n = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        txtTimeModify.setText(getString(R.string.detail_time_modify,date_n));
     }
 
     private void autoSave() {
@@ -47,8 +58,9 @@ public class CreateNoteActivity extends AppCompatActivity {
             supportFinishAfterTransition();
         }
         else{
-            currentTime = Calendar.getInstance().getTime();
-            Note note = new Note(edtTitle.getText().toString(),edtContent.getText().toString(),"#FFFFF",String.valueOf(currentTime.getTime()));
+//            currentTime = Calendar.getInstance().getTime();
+            String date_n = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault()).format(new Date());
+            Note note = new Note(edtTitle.getText().toString(),edtContent.getText().toString(),"#FFFFF",date_n);
             myDatabase.addNote(note);
             Toast.makeText(this, "Da luu ", Toast.LENGTH_SHORT).show();
             intent.putExtra("MESSAGE",true);

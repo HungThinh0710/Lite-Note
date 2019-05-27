@@ -32,7 +32,7 @@ public class MyDatabase extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String script = " CREATE TABLE " + TABLE_NAME + " ( " + ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + TITLE + " TEXT, " + CONTENT + " TEXT, " + COLOR + " INTEGER ," + CREATED_AT +" TEXT " + " )";
+        String script = " CREATE TABLE " + TABLE_NAME + " ( " + ID + " INTEGER PRIMARY KEY AUTOINCREMENT , " + TITLE + " TEXT, " + CONTENT + " TEXT, " + COLOR + " TEXT ," + CREATED_AT +" TEXT " + " )";
         db.execSQL( script );
     }
 
@@ -93,7 +93,7 @@ public class MyDatabase extends SQLiteOpenHelper {
     public List<Note> getAllNotes() {
         List<Note> notesArrayList = new ArrayList<Note>();
         SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.query( TABLE_NAME, columns, null, null, null, null, null );
+        Cursor cursor = db.query( TABLE_NAME, columns, null, null, null, null, ID + " DESC" ,null);
 
         if (cursor.moveToFirst()) {
             do {
