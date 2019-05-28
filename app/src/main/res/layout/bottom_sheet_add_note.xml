@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_bottom_sheet_add_note"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@null"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="0dp"
+
+    android:paddingBottom="10dp"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+    >
+    <Button
+        android:id="@+id/btn_bottom_sheet_add_capture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_photo_camera_black_24dp"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="30dp"
+        android:text="@string/bottom_sheet_capture_button"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        android:background="@null"
+        />
+    <Button
+        android:id="@+id/btn_bottom_sheet_add_select_picture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_gallery_black_24dp"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="30dp"
+        android:text="@string/bottom_sheet_select_picture_button"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        android:background="@null"
+        />
+    <Button
+        android:id="@+id/btn_bottom_sheet_add_sound_recoder"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ic_keyboard_voice_black_24dp"
+        android:gravity="left|center_vertical"
+        android:drawablePadding="30dp"
+        android:text="@string/bottom_sheet_select_sound_recoder_button"
+        android:textAllCaps="false"
+        android:textSize="19sp"
+        android:background="@null"
+        />
+
+</LinearLayout>

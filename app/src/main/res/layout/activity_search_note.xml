@@ -48,4 +48,18 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/grey"/>
+
+    <GridView
+        android:id="@+id/gridViewSearch"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:numColumns="auto_fit"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:columnWidth="65dp"
+        android:verticalSpacing="10dp"
+        android:horizontalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:layout_marginBottom="10dp"/>
 </LinearLayout>

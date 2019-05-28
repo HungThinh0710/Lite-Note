@@ -108,4 +108,27 @@ public class MyDatabase extends SQLiteOpenHelper {
         }
         return notesArrayList;
     }
+
+    public List<Note> searchNote(String keyword){
+        List<Note> notes = null;
+        try {
+            SQLiteDatabase sqLiteDatabase = getReadableDatabase();
+            Cursor cursor = sqLiteDatabase.rawQuery("select * from " + TABLE_NAME + " where " + CONTENT + " like ?", new String[] { "%" + keyword + "%" });
+            if (cursor.moveToFirst()) {
+                notes = new ArrayList<Note>();
+                do {
+                    Note note = new Note();
+                    note.setID(cursor.getInt(0));
+                    note.setmTitle(cursor.getString(1));
+                    note.setmContent(cursor.getString(2));
+                    note.setmColor(cursor.getString(3));
+                    note.setmCreated_at(cursor.getString(4));
+                    notes.add(note);
+                } while (cursor.moveToNext());
+            }
+        } catch (Exception e) {
+            notes = null;
+        }
+        return notes;
+    }
 }

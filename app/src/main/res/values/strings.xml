@@ -9,4 +9,12 @@
     <string name="layout_create_note_hint_title">Title</string>
     <string name="layout_create_note_hint_content">Note</string>
     <string name="detail_time_modify">Modified at %s</string>
+    <string name="bottom_sheet_delete_button">Delete</string>
+    <string name="bottom_sheet_make_a_copy_button">Make a copy</string>
+    <string name="bottom_sheet_share_button">Share</string>
+    <string name="bottom_sheet_label_button">Label</string>
+    <string name="bottom_sheet_capture_button">Capture</string>
+    <string name="bottom_sheet_select_picture_button">Select picture</string>
+    <string name="bottom_sheet_select_sound_recoder_button">Sound recoder</string>
+
 </resources>
