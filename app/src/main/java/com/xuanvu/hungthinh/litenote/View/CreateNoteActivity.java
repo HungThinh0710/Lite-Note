@@ -1,14 +1,21 @@
 package com.xuanvu.hungthinh.litenote.View;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +24,7 @@ import com.xuanvu.hungthinh.litenote.Database.MyDatabase;
 import com.xuanvu.hungthinh.litenote.Model.Note;
 import com.xuanvu.hungthinh.litenote.R;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
@@ -26,10 +34,13 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CreateNoteActivity extends AppCompatActivity{
+    private Note note;
     private Button btnBack;
     private EditText edtTitle, edtContent;
     private MyDatabase myDatabase;
+    private ImageView imageView;
 
+    ClipboardManager clipboardManager;
     BottomSheetBehavior sheetBehaviorThreeDot, sheetBehaviorAdd;
 
     private Button btnThreeDot,btnAdd;
@@ -68,6 +79,9 @@ public class CreateNoteActivity extends AppCompatActivity{
         edtContent = findViewById(R.id.edt_create_note_content);
         TextView txtTimeModify = findViewById(R.id.txt_create_time_modify);
         btnBack = findViewById(R.id.btn_create_note_back);
+        imageView = findViewById( R.id.imageView );
+
+        clipboardManager =(ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
 
         //init Button for react Bottom sheet
         btnThreeDot = findViewById(R.id.btn_create_note_threedot);
@@ -231,12 +245,23 @@ public class CreateNoteActivity extends AppCompatActivity{
 
     @OnClick(R.id.btn_bottom_sheet_threedot_make_a_copy)
     public void bottomSheetThreeDotMakeACopy(){
+        String title = edtTitle.getText().toString();
+        String content = edtContent.getText().toString();
+        if (!title.equals( "" )|| !content.equals( "" ))
+        {
+            ClipData clipData = ClipData.newPlainText( "",title + "\n" + content );
+            clipboardManager.setPrimaryClip( clipData );
+            Toast.makeText( this, "Copied", Toast.LENGTH_SHORT ).show();
+        }
 
     }
 
     @OnClick(R.id.btn_bottom_sheet_threedot_share)
     public void bottomSheetThreeDotShare(){
-
+        Intent intent = new Intent( Intent.ACTION_SEND );
+        intent.setType("text/plain");
+        intent.putExtra( Intent.EXTRA_TEXT, note );
+        startActivity(Intent.createChooser(intent, "Select app"));
     }
 
     @OnClick(R.id.btn_bottom_sheet_threedot_label)
@@ -249,15 +274,45 @@ public class CreateNoteActivity extends AppCompatActivity{
     * */
     @OnClick(R.id.btn_bottom_sheet_add_capture)
     public void bottomSheetAddCapture(){
+        Intent intent = new Intent( MediaStore.ACTION_IMAGE_CAPTURE );
+        startActivityForResult( intent, 1000 );
 
     }
     @OnClick(R.id.btn_bottom_sheet_add_select_picture)
     public void bottomSheetAddSelectPicture(){
+        Intent intent = new Intent( Intent.ACTION_GET_CONTENT );
+        intent.setType( "image/*" );
+        startActivityForResult( intent, 2000 );
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult( requestCode, resultCode, data );
+        if (resultCode == RESULT_OK) {
+            if (requestCode == 1000) {
+                Bitmap bitmap = (Bitmap) data.getExtras().get( "data" );
+                imageView.setImageBitmap( bitmap );
+            } else if (requestCode == 2000) {
+                Uri uri = data.getData();
+                Bitmap bitmap = null;
+                try {
+                    /* imageView.setImageURI(data.getData()  );*/
+                    bitmap = MediaStore.Images.Media.getBitmap( getContentResolver(), uri );
+                    imageView.setImageBitmap( bitmap );
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else if (requestCode == 3000){
+               /* Uri uri = data.getData();
+                MediaPlayer mediaPlayer = MediaPlayer.create( this,uri );*/
+            }
+
+        }
     }
     @OnClick(R.id.btn_bottom_sheet_add_sound_recoder)
     public void bottomSheetAddSoundRecoder(){
-
+        Intent intent = new Intent ( MediaStore.Audio.Media.RECORD_SOUND_ACTION);
+        startActivityForResult (intent, 3000);
     }
 
 

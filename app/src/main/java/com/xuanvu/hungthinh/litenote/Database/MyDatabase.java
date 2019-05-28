@@ -58,15 +58,13 @@ public class MyDatabase extends SQLiteOpenHelper {
         return Integer.parseInt( cursor.getString( 0 ) );
     }
 
-    public boolean deleteContact(Note note) {
+    public boolean deleteNote(Note note) {
         SQLiteDatabase db = this.getWritableDatabase();
         int check = db.delete( TABLE_NAME, ID + " = " + note.getID(), null );
         if (check != 0) {
-
             db.close();
             return true;
         } else {
-
             db.close();
             return false;
 
