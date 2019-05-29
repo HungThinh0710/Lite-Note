@@ -51,7 +51,7 @@ public class DetailNoteActivity extends AppCompatActivity {
 
     BottomSheetBehavior sheetBehaviorThreeDot, sheetBehaviorAdd;
 
-    private Button btnThreeDot, btnAdd;
+    private Button btnThreeDot, btnAdd, btnSaveDetailNote;
     private String hexColorChanged;
     private DefineColor defineColor = new DefineColor();
 
@@ -93,6 +93,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         edtContent = findViewById( R.id.edt_detail_content );
         txtTimeModify = findViewById( R.id.txt_detail_time_modify );
         btnBack = findViewById( R.id.btn_detail_note_back );
+        btnSaveDetailNote = findViewById( R.id.save_detail_note );
         imageView = findViewById( R.id.imageView );
         clipboardManager =(ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
 
@@ -103,6 +104,12 @@ public class DetailNoteActivity extends AppCompatActivity {
         //init Bottom Sheet
         bottomSheetInit();
 
+        btnSaveDetailNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoUpdate();
+            }
+        });
     }
 
     private void autoUpdate() {
@@ -117,7 +124,7 @@ public class DetailNoteActivity extends AppCompatActivity {
             String date_n = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault()).format(new Date());
             Note noteObjForUpdate = new Note(edtTitle.getText().toString(),edtContent.getText().toString(),hexColorChanged,date_n);
             myDatabase.updateNote(noteObjForUpdate,note.getID());
-            Toast.makeText(this, "Saved your note autoupdate", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Saved your note", Toast.LENGTH_SHORT).show();
             intent.putExtra("MESSAGE",true);
             setResult(Activity.RESULT_OK,intent);
 //            finish();

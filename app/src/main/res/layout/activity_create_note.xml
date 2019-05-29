@@ -12,34 +12,43 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
         android:orientation="horizontal">
-
-        <LinearLayout
-            android:layout_width="300dp"
-            android:layout_height="match_parent">
-
-            <Button
-                android:id="@+id/btn_create_note_back"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/ic_left_back"
-
-                />
-        </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <Button
+                    android:id="@+id/btn_create_note_back"
+                    android:layout_gravity="center_vertical|left"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/ic_left_back"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_weight="1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right">
+                <Button
+                    android:id="@+id/save_create_note"
+                    android:layout_gravity="center_vertical"
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/ic_save_black_40dp"
+                    android:text="SAVE"
+                    android:textSize="15sp"
+                    android:textColor="@color/colorPrimary"/>
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/gh"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_gravity="center_vertical" />
         </LinearLayout>
 
     </LinearLayout>
@@ -50,9 +59,14 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="15dp">
-
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/grey"
+            />
         <EditText
             android:id="@+id/edt_create_note_title"
+            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
@@ -65,19 +79,30 @@
             android:id="@+id/edt_create_note_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="15dp"
+            android:layout_below="@id/edt_create_note_title"
+            android:layout_above="@id/layout_create_note_bottom"
+
             android:background="@android:color/transparent"
             android:gravity="left"
             android:hint="@string/layout_create_note_hint_content"
             android:textColor="@color/black"
             android:textSize="17sp" />
         <ImageView
-            android:id="@+id/imageView"
-            android:layout_below="@id/edt_create_note_content"
-            android:layout_above="@id/layout_create_note_bottom"
-            android:layout_marginTop="15dp"
+            android:layout_below="@id/edt_create_note_title"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="1dp"
+            android:layout_marginStart="35dp"
+            android:layout_marginEnd="35dp"
+            android:background="@color/grey"
+            android:layout_marginTop="6dp"
+            />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_marginTop="15dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp" />
 
         <!-- Adding bottom sheet after main content -->
         <android.support.design.widget.CoordinatorLayout

@@ -38,7 +38,7 @@ import butterknife.OnClick;
 
 public class CreateNoteActivity extends AppCompatActivity{
     private Note note;
-    private Button btnBack;
+    private Button btnBack, btnSaveNote;
     private EditText edtTitle, edtContent;
     private MyDatabase myDatabase;
     private ImageView imageView;
@@ -90,6 +90,7 @@ public class CreateNoteActivity extends AppCompatActivity{
         edtContent = findViewById(R.id.edt_create_note_content);
         TextView txtTimeModify = findViewById(R.id.txt_create_time_modify);
         btnBack = findViewById(R.id.btn_create_note_back);
+        btnSaveNote = findViewById(R.id.save_create_note);
         imageView = findViewById( R.id.imageView );
 
         clipboardManager =(ClipboardManager) getSystemService( CLIPBOARD_SERVICE );
@@ -108,6 +109,12 @@ public class CreateNoteActivity extends AppCompatActivity{
         //init HexColor Default;
         hexColorChanged = defineColor.WHITE;
 
+        btnSaveNote.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autoSave();
+            }
+        });
     }
 
     private void bottomSheetInit() {
