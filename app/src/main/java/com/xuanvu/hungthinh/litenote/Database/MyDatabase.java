@@ -129,4 +129,20 @@ public class MyDatabase extends SQLiteOpenHelper {
         }
         return notes;
     }
+
+    public void updateColor(Note note,String hexColor){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLOR,hexColor);
+        db.update(TABLE_NAME,contentValues,ID+"="+note.getID(),null);
+    }
+
+    public void updateNote(Note note,int idNote){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TITLE,note.getmTitle());
+        contentValues.put(CONTENT,note.getmContent());
+        contentValues.put(COLOR,note.getmColor());
+        db.update(TABLE_NAME,contentValues,ID+"="+idNote,null);
+    }
 }

@@ -1,6 +1,8 @@
 package com.xuanvu.hungthinh.litenote.Adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -64,6 +66,16 @@ public class GridViewAdapter extends BaseAdapter {
         linearLayout.setTransitionName("layout_detail_trans"+ position );
         txtTitle.setText(arrayListNote.get(position).getmTitle());
         txtContent.setText(arrayListNote.get(position).getmContent());
+
+
+        // Set color and radius for item
+        linearLayout.setBackgroundResource(R.drawable.conor_layout);
+
+        GradientDrawable drawable = (GradientDrawable) linearLayout.getBackground();
+        drawable.setColor(Color.parseColor(arrayListNote.get(position).getmColor()));
+
+//        linearLayout.setBackgroundColor(Color.parseColor(arrayListNote.get(position).getmColor()));
+//        v.setBackgroundResource(R.drawable.tags_rounded_corners);
 
         Log.d("debn_acti_adapte_n_tran",linearLayout.getTransitionName());
 

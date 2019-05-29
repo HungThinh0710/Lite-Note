@@ -1,12 +1,12 @@
 package com.xuanvu.hungthinh.litenote.View;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
-import android.media.MediaPlayer;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -15,7 +15,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,14 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.xuanvu.hungthinh.litenote.Adapter.GridViewAdapter;
+import com.xuanvu.hungthinh.litenote.Color.DefineColor;
 import com.xuanvu.hungthinh.litenote.Database.MyDatabase;
 import com.xuanvu.hungthinh.litenote.MainActivity;
 import com.xuanvu.hungthinh.litenote.Model.Note;
 import com.xuanvu.hungthinh.litenote.R;
 
 import java.io.IOException;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,13 +52,23 @@ public class DetailNoteActivity extends AppCompatActivity {
     BottomSheetBehavior sheetBehaviorThreeDot, sheetBehaviorAdd;
 
     private Button btnThreeDot, btnAdd;
+    private String hexColorChanged;
+    private DefineColor defineColor = new DefineColor();
+
+
+
     /*
      * Bind Controls from Bottom Sheet
      * */
+
     @BindView(R.id.layout_bottom_sheet_threedote_note)
     LinearLayout layoutBottomSheetThreeDot;
     @BindView(R.id.layout_bottom_sheet_add_note)
     LinearLayout layoutBottomSheetAdd;
+    @BindView(R.id.layout_detail_note)
+    LinearLayout layoutFrameDetailNote;
+    @BindView(R.id.layout_detail_note_bottom)
+    LinearLayout layoutFrameDetailNoteBottom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +102,27 @@ public class DetailNoteActivity extends AppCompatActivity {
 
         //init Bottom Sheet
         bottomSheetInit();
+
+    }
+
+    private void autoUpdate() {
+        Intent intent = new Intent(this,MainActivity.class);
+        if(edtTitle.getText().toString().equals("") && edtContent.getText().toString().equals("")){
+            intent.putExtra("MESSAGE",false);
+            setResult(Activity.RESULT_CANCELED,intent);
+            finishActivity(200);
+        }
+        else{
+//            currentTime = Calendar.getInstance().getTime();
+            String date_n = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault()).format(new Date());
+            Note noteObjForUpdate = new Note(edtTitle.getText().toString(),edtContent.getText().toString(),hexColorChanged,date_n);
+            myDatabase.updateNote(noteObjForUpdate,note.getID());
+            Toast.makeText(this, "Saved your note autoupdate", Toast.LENGTH_SHORT).show();
+            intent.putExtra("MESSAGE",true);
+            setResult(Activity.RESULT_OK,intent);
+//            finish();
+            finishActivity(200);
+        }
     }
 
     private void bottomSheetInit() {
@@ -186,12 +218,25 @@ public class DetailNoteActivity extends AppCompatActivity {
     private void receiveDataBundle() {
         Intent intent = getIntent();
         note = (Note) intent.getSerializableExtra( "NoteObject" );
+        hexColorChanged = note.getmColor();
     }
 
     private void setData() {
         edtTitle.setText( note.getmTitle() );
         edtContent.setText( note.getmContent() );
         txtTimeModify.setText( getString( R.string.detail_time_modify, note.getmCreated_at() ) );
+
+        layoutFrameDetailNote.setBackgroundColor(Color.parseColor(note.getmColor()));
+        layoutFrameDetailNoteBottom.setBackgroundColor(Color.parseColor(note.getmColor()));
+        layoutBottomSheetAdd.setBackgroundColor(Color.parseColor(note.getmColor()));
+        layoutBottomSheetThreeDot.setBackgroundColor(Color.parseColor(note.getmColor()));
+    }
+
+    private void setColorFrameLayout(int drawableRes){
+        layoutFrameDetailNote.setBackgroundResource(drawableRes);
+        layoutFrameDetailNoteBottom.setBackgroundResource(drawableRes);
+        layoutBottomSheetAdd.setBackgroundResource(drawableRes);
+        layoutBottomSheetThreeDot.setBackgroundResource(drawableRes);
     }
 
     private void back() {
@@ -211,6 +256,7 @@ public class DetailNoteActivity extends AppCompatActivity {
         if (sheetBehaviorAdd.getState() == BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehaviorAdd.setState( BottomSheetBehavior.STATE_COLLAPSED );
         } else {
+            autoUpdate();
             supportFinishAfterTransition();
         }
     }
@@ -252,9 +298,6 @@ public class DetailNoteActivity extends AppCompatActivity {
         } );
         AlertDialog alertDialog = box.create();
         alertDialog.show();
-
-
-
     }
 
     @OnClick(R.id.btn_bottom_sheet_threedot_make_a_copy)
@@ -328,6 +371,81 @@ public class DetailNoteActivity extends AppCompatActivity {
         Intent intent = new Intent (MediaStore.Audio.Media.RECORD_SOUND_ACTION);
         startActivityForResult (intent, 3000);
 
+    }
+
+    /*
+     * Handle set color for note
+     * */
+    @OnClick(R.id.img_bottom_sheet_circle_white)
+    public void setWhiteColorForNote(){
+        hexColorChanged = defineColor.WHITE;
+        setColorFrameLayout(R.color.circle_white);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_red_light)
+    public void setRedLightColorForNote(){
+        hexColorChanged = defineColor.RED_LIGHT;
+        setColorFrameLayout(R.color.circle_red_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_yellow_heavy)
+    public void setYellowHeavyColorForNote(){
+        hexColorChanged = defineColor.YELLOW_HEAVY;
+        setColorFrameLayout(R.color.circle_yellow_heavy);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_yellow_light)
+    public void setYellowLightColorForNote(){
+        hexColorChanged = defineColor.YELLOW_LIGHT;
+        setColorFrameLayout(R.color.circle_yellow_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_green_light)
+    public void setGreenLightColorForNote(){
+        hexColorChanged = defineColor.GREEN_LIGHT;
+        setColorFrameLayout(R.color.circle_green_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_cyan_light)
+    public void setCyanLightColorForNote(){
+        hexColorChanged = defineColor.CYAN_LIGHT;
+        setColorFrameLayout(R.color.circle_cyan_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_cyan_light_two)
+    public void setCyanLightTwoColorForNote(){
+        hexColorChanged = defineColor.CYAN_LIGHT_TWO;
+        setColorFrameLayout(R.color.circle_cyan_light_two);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_blue_light)
+    public void setBlueLightColorForNote(){
+        hexColorChanged = defineColor.BLUE_LIGHT;
+        setColorFrameLayout(R.color.circle_blue_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_violet_light)
+    public void setVioletLightColorForNote(){
+        hexColorChanged = defineColor.VIOLET_LIGHT;
+        setColorFrameLayout(R.color.circle_violet_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_pink_light)
+    public void setPinkLightColorForNote(){
+        hexColorChanged = defineColor.PINK_LIGHT;
+        setColorFrameLayout(R.color.circle_pink_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_brown_light)
+    public void setBrownLightColorForNote(){
+        hexColorChanged = defineColor.CYAN_LIGHT_TWO;
+        setColorFrameLayout(R.color.circle_brown_light);
+    }
+
+    @OnClick(R.id.img_bottom_sheet_circle_greylight)
+    public void setGreyLightColorForNote(){
+        hexColorChanged = defineColor.GREY_LIGHT;
+        setColorFrameLayout(R.color.circle_grey);
     }
 
 }

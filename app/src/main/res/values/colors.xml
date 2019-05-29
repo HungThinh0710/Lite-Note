@@ -8,4 +8,17 @@
     <color name="black">#000000</color>
     <color name="grey">#C8C8C8</color>
 
+
+    <color name="circle_white">#FFFFFF</color>
+    <color name="circle_red_light">#F28B82</color>
+    <color name="circle_yellow_heavy">#FBBC04</color>
+    <color name="circle_yellow_light">#FFF475</color>
+    <color name="circle_green_light">#CCFF90</color>
+    <color name="circle_cyan_light">#A7FFEB</color>
+    <color name="circle_cyan_light_two">#CBF0F8</color>
+    <color name="circle_blue_light">#AECBFA</color>
+    <color name="circle_violet_light">#D7AEFB</color>
+    <color name="circle_pink_light">#FDCFE8</color>
+    <color name="circle_brown_light">#E6C9A8</color>
+    <color name="circle_grey">#E8EAED</color>
 </resources>

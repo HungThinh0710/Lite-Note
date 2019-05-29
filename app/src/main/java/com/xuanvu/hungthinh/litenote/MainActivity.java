@@ -85,21 +85,21 @@ public class MainActivity extends AppCompatActivity
         switchColumnsGridView();
         setOnItemClick();
 
-
-
-       refreshGridView();
+        refreshGridViewByIntent();
     }
 
-    public void refreshGridView() {
-        Intent intent = getIntent();
-        boolean isModified = intent.getBooleanExtra("REFRESH_STATUS",false);
-        Log.e( "is_mo",String.valueOf( isModified ) );
-        if(isModified == true) {
-            listNote = new ArrayList<Note>();
-            listNote = myDatabase.getAllNotes();
-            gridViewAdapter = new GridViewAdapter(this, (ArrayList) listNote);
-            gridView.setAdapter(gridViewAdapter);
-            gridViewAdapter.notifyDataSetChanged();
+    public void refreshGridViewByIntent() {
+        if(getIntent().getExtras() != null){
+            Intent intent = getIntent();
+            boolean isModified = intent.getBooleanExtra("REFRESH_STATUS",false);
+            Log.e( "is_mo",String.valueOf( isModified ) );
+            if(isModified == true) {
+                listNote = new ArrayList<Note>();
+                listNote = myDatabase.getAllNotes();
+                gridViewAdapter = new GridViewAdapter(this, (ArrayList) listNote);
+                gridView.setAdapter(gridViewAdapter);
+                gridViewAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -260,7 +260,7 @@ public class MainActivity extends AppCompatActivity
 //
                 ActivityOptionsCompat options = ActivityOptionsCompat.
                         makeSceneTransitionAnimation(MainActivity.this, (View)findViewById(R.id.layout_gridview_note), linearDetailLayout.getTransitionName());
-                startActivity(intent, options.toBundle());
+                startActivityForResult(intent,200, options.toBundle());
             }
         });
     }

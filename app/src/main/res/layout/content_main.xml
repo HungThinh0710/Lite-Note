@@ -13,7 +13,7 @@
         android:id="@+id/frameSearchNote"
         android:transitionName="frameTransSearchNote"
         android:layout_marginTop="20dp"
-        android:background="@drawable/conor_layout"
+        android:background="@drawable/cornor_layout_search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
