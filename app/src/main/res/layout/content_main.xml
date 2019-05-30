@@ -26,7 +26,7 @@
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:background="@android:color/transparent"
-            android:hint="Tim kiem ghi chu"
+            android:hint="@string/searching_note"
             android:textAllCaps="false"
             android:gravity="left|center_vertical"
             android:paddingLeft="5dp"

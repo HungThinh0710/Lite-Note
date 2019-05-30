@@ -64,7 +64,17 @@ public class GridViewAdapter extends BaseAdapter {
 //        linearLayout.setTransitionName("s");
 //        linearLayout1.setTransitionName("s");
         linearLayout.setTransitionName("layout_detail_trans"+ position );
-        txtTitle.setText(arrayListNote.get(position).getmTitle());
+
+        //handle number character of title
+        String strTitle = null;
+        strTitle = arrayListNote.get(position).getmTitle();
+        if (strTitle.length() > 7){
+            strTitle = strTitle.substring(0,7) + "...";
+            txtTitle.setText(strTitle);
+        }
+        else{
+            txtTitle.setText(arrayListNote.get(position).getmTitle());
+        }
         txtContent.setText(arrayListNote.get(position).getmContent());
 
 

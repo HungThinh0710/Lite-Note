@@ -1,12 +1,14 @@
 package com.xuanvu.hungthinh.litenote.View;
 
 import android.content.Intent;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -33,6 +35,7 @@ public class SearchNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_note);
         init();
         onTextChange();
+        setOnItemClick();
     }
 
     private void init() {
@@ -44,13 +47,6 @@ public class SearchNoteActivity extends AppCompatActivity {
         edtSearch.setShowSoftInputOnFocus(true);
 
         gridView.setNumColumns(2);
-
-
-
-
-
-
-
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +86,25 @@ public class SearchNoteActivity extends AppCompatActivity {
         listNote = new ArrayList<>();
         listNote = myDatabase.searchNote(keyword);
         return listNote;
+    }
+
+    private void setOnItemClick() {
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SearchNoteActivity.this, DetailNoteActivity.class);
+                //Get information
+                Note note = new Note();
+                note = listNote.get(position);
+                intent.putExtra("NoteObject", note);
+
+//                linearGridLayout.setTransitionName("layout_detail_trans"+ position) ;
+                //Debug full log
+//                Log.d("debn_acti_grid_n_tran",linearGridLayout.getTransitionName());
+//
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

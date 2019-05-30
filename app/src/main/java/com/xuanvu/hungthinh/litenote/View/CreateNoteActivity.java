@@ -13,6 +13,9 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.v7.app.AppCompatActivity;
 
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -52,6 +55,9 @@ public class CreateNoteActivity extends AppCompatActivity{
 
     private DefineColor defineColor = new DefineColor();
     private String hexColorChanged;
+
+    private boolean isSaved;
+    private boolean isCreated;
 
     /*
     * Bind Controls from Bottom Sheet
@@ -109,12 +115,17 @@ public class CreateNoteActivity extends AppCompatActivity{
         //init HexColor Default;
         hexColorChanged = defineColor.WHITE;
 
+
+        isSaved = false;
+        isCreated = false;
         btnSaveNote.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 autoSave();
             }
         });
+
+        listenTextChange();
     }
 
     private void bottomSheetInit() {
@@ -212,24 +223,59 @@ public class CreateNoteActivity extends AppCompatActivity{
     }
 
     private void autoSave() {
+        int idNote = 0;
         Intent intent = new Intent(this,MainActivity.class);
+        String date_n = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault()).format(new Date());
+
         if(edtTitle.getText().toString().equals("") && edtContent.getText().toString().equals("")){
             intent.putExtra("MESSAGE",false);
             setResult(Activity.RESULT_OK,intent);
+            isSaved = false;
+            Log.e("autoSaveCaseFalse: ",String.valueOf(isSaved) );
             finishActivity(200);
         }
         else{
+            if(isSaved == false){
 //            currentTime = Calendar.getInstance().getTime();
-
-            String date_n = new SimpleDateFormat("HH:mm dd-MM-yyyy", Locale.getDefault()).format(new Date());
                 note = new Note(edtTitle.getText().toString(),edtContent.getText().toString(),hexColorChanged,date_n);
-            myDatabase.addNote(note);
-            Toast.makeText(this, "Saved your note", Toast.LENGTH_SHORT).show();
-            intent.putExtra("MESSAGE",true);
-            setResult(Activity.RESULT_OK,intent);
-            finishActivity(200);
+                myDatabase.addNote(note);
+                Log.d("autoSave_logID: ",String.valueOf(idNote));
+                Toast.makeText(this, "Saved your note", Toast.LENGTH_SHORT).show();
+                intent.putExtra("MESSAGE",true);
+                setResult(Activity.RESULT_OK,intent);
+                isSaved = true;
+                isCreated = true;
+                Log.e("autoSaveCaseTrue: ",String.valueOf(isSaved) );
+                finishActivity(200);
+            }
+            if(isSaved == true && isCreated == true){
+                note = new Note(edtTitle.getText().toString(),edtContent.getText().toString(),hexColorChanged,date_n);
+                idNote = myDatabase.getLastedIdInsert();
+                myDatabase.updateNote(note,idNote);
+                Log.d("autoSave_logID_case2: ",String.valueOf(idNote));
+                Toast.makeText(this, "Saved your note", Toast.LENGTH_SHORT).show();
+            }
         }
 
+    }
+
+    private void listenTextChange() {
+        edtContent.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                isSaved = true;
+            }
+        });
     }
     private void setColorFrameLayout(int drawableRes){
         layoutFrameCreateNote.setBackgroundResource(drawableRes);

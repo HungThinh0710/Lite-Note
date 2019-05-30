@@ -16,5 +16,6 @@
     <string name="bottom_sheet_capture_button">Capture</string>
     <string name="bottom_sheet_select_picture_button">Select picture</string>
     <string name="bottom_sheet_select_sound_recoder_button">Sound recoder</string>
+    <string name="searching_note">Search notes</string>
 
 </resources>

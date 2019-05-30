@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
 import android.support.annotation.Nullable;
+import android.util.Log;
 
 import com.xuanvu.hungthinh.litenote.Model.Note;
 
@@ -144,5 +145,22 @@ public class MyDatabase extends SQLiteOpenHelper {
         contentValues.put(CONTENT,note.getmContent());
         contentValues.put(COLOR,note.getmColor());
         db.update(TABLE_NAME,contentValues,ID+"="+idNote,null);
+    }
+
+    public int getLastedIdInsert(){
+        int id = 0;
+        SQLiteDatabase db = this.getReadableDatabase();
+//        String id = " SELECT last_insert_rowid()",null;
+//        Cursor cursor = db.rawQuery( id, null );
+//        if (cursor != null) cursor.moveToFirst();
+//        db.close();
+//        return Integer.parseInt( cursor.getString( 0 ) );
+        Cursor cursor = (Cursor) db.rawQuery("SELECT MAX(Note_Id) FROM "+ TABLE_NAME,null);
+//        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            id = cursor.getInt(0);
+        }
+        Log.e("autoSave_logID_database",String.valueOf(id));
+        return id;
     }
 }
