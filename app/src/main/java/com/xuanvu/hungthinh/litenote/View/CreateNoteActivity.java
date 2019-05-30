@@ -268,7 +268,10 @@ public class CreateNoteActivity extends AppCompatActivity{
     * */
     @OnClick(R.id.btn_bottom_sheet_threedot_delete)
     public void bottomSheetThreeDotDelete(){
-        supportFinishAfterTransition();
+        Intent intent = new Intent( this, MainActivity.class );
+        startActivity( intent );
+        
+        /*supportFinishAfterTransition();*/
     }
 
     @OnClick(R.id.btn_bottom_sheet_threedot_make_a_copy)

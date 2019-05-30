@@ -1,5 +1,6 @@
 package com.xuanvu.hungthinh.litenote;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AlertDialog;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -213,17 +215,38 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_home) {
             // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_add_new) {
+            Intent intent = new Intent( this, CreateNoteActivity.class );
+            startActivity( intent );
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_setting) {
+            final AlertDialog.Builder box = new AlertDialog.Builder( this );
+            box.setMessage( "Function is updating ..." );
 
-        } else if (id == R.id.nav_manage) {
+            box.setPositiveButton( "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
 
-        } else if (id == R.id.nav_share) {
+                }
+            } );
+            AlertDialog alertDialog = box.create();
+            alertDialog.show();
 
-        } else if (id == R.id.nav_send) {
+
+        } else if (id == R.id.nav_about) {
+            final AlertDialog.Builder box = new AlertDialog.Builder( this );
+            box.setMessage( "A simple note taking app"+"\n"+"\n"+ "Version 1.0" +"\n"+"\n"+ "Creator: Hung Thinh - Xuan Vu" );
+
+            box.setPositiveButton( "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+
+                }
+            } );
+            AlertDialog alertDialog = box.create();
+            alertDialog.show();
 
         }
 
